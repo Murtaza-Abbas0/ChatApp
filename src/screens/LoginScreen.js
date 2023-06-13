@@ -1,20 +1,20 @@
-import React from 'react'
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 import ButtonWithIcon from '../components/atoms/ButtonWithIcon'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import InputField from '../components/atoms/InputField';
 const ic_send = require("../assets/icons/ic_send.png")
 
 const LoginScreen = () => {
+
+    const [Username, setUsername] = useState('')
+
     return (
         <View style={styles.mainContainer} >
-            <ButtonWithIcon
-                Width={wp('10%')}
-                Height={wp('10%')}
-                BorderRadius={wp('2%')}
-                Icon={ic_send}
-                WidthForIcon={wp('5%')}
-                HeightForIcon={wp('5%')}
+            <InputField
+                Label={'Enter Username'}
+                Value={Username}
+                setValue={setUsername}
             />
         </View>
     )
