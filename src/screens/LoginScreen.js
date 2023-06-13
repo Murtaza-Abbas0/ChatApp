@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { InputField } from '../components/atoms';
+import { Button, InputField, InputFieldWithImage } from '../components/atoms';
 import Colors from '../styles/colors/Colors';
 
 const LoginScreen = () => {
 
     const [Username, setUsername] = useState('')
     const [Password, setPassword] = useState('')
+    const [isPasswordHidden, setIsPasswordHidden] = useState(true)
+
 
     return (
         <View style={styles.mainContainer} >
@@ -21,7 +23,7 @@ const LoginScreen = () => {
                     BorderRadius={wp('2%')}
                     BackgroundColor={Colors.background}
                 />
-                <InputField
+                <InputFieldWithImage
                     Label={'Password'}
                     Value={Password}
                     SetValue={setPassword}
@@ -29,9 +31,22 @@ const LoginScreen = () => {
                     Height={wp('13%')}
                     BorderRadius={wp('2%')}
                     BackgroundColor={Colors.background}
-                    SecureTextEntry={true}
+                    onPressEyeButton={() => { setIsPasswordHidden(!isPasswordHidden) }}
+                    SecureTextEntry={isPasswordHidden}
+                    WidthForIcon={wp('5%')}
+                    HeightForIcon={wp('5%')}
                 />
             </View>
+            <Button
+                Height={wp('10%')}
+                Width={wp('50%')}
+                BorderRadius={wp('3%')}
+                BackgroundColor={Colors.background}
+                Label={'Login'}
+                MarginTop={wp('4%')}
+                Color={Colors.primary}
+                FontWeight={'500'}
+            />
         </View>
     )
 }
@@ -48,9 +63,9 @@ const styles = StyleSheet.create({
     },
     textFieldsContainer: {
         width: wp('100%'),
-        height: wp('50%'),
+        height: wp('40%'),
         alignItems: 'center',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
     }
 
 })

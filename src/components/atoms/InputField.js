@@ -26,7 +26,6 @@ const InputField = ({ Label, Value, SetValue, Width, Height, BorderRadius, Backg
                 value={Value}
                 onChangeText={(val) => onChangeText(val)}
                 secureTextEntry={SecureTextEntry}
-                
             />
         </View>
     )
