@@ -1,27 +1,43 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Button, InputField, InputFieldWithImage } from '../components/atoms';
 import Colors from '../styles/colors/Colors';
 import { useNavigation } from '@react-navigation/native';
-import { getUsers, fetchUsers } from '../firebaseServices/getUsers';
+import firestore from '@react-native-firebase/firestore';
 
-const LoginScreen = () => {
+const SignUpScreen = () => {
 
     const navigation = useNavigation()
 
     const [Username, setUsername] = useState('')
     const [Password, setPassword] = useState('')
+    const [ConfirmPassword, setConfirmPassword] = useState('')
     const [isPasswordHidden, setIsPasswordHidden] = useState(true)
 
-    const getUsersList = async () => {
-        await fetchUsers();
+    const onPressSignUp = async () => {
+        if (Password === ConfirmPassword && Username, Password != '') {
+            const userRef = firestore().collection('Users').doc();
 
-        // Use cached user data in any component
-        const users = getUsers();
-        console.log('Users:', users);
-    }
-    getUsersList()
+            firestore()
+                .runTransaction(async (transaction) => {
+                    await transaction.set(userRef, {
+                        userName: Username,
+                        password: Password,
+                    });
+                })
+                .then(() => {
+                    console.log('User added!');
+                })
+                .catch((error) => {
+                    console.log('Transaction failed: ', error);
+                });
+        } else {
+            console.log('Passwords do not match');
+        }
+    };
+
+
     return (
         <View style={styles.mainContainer} >
             <View style={styles.textFieldsContainer} >
@@ -47,19 +63,20 @@ const LoginScreen = () => {
                     WidthForIcon={wp('5%')}
                     HeightForIcon={wp('5%')}
                 />
+                <InputFieldWithImage
+                    Label={'Confirm Password'}
+                    Value={ConfirmPassword}
+                    SetValue={setConfirmPassword}
+                    Width={wp('85%')}
+                    Height={wp('13%')}
+                    BorderRadius={wp('2%')}
+                    BackgroundColor={Colors.background}
+                    onPressEyeButton={() => { setIsPasswordHidden(!isPasswordHidden) }}
+                    SecureTextEntry={isPasswordHidden}
+                    WidthForIcon={wp('5%')}
+                    HeightForIcon={wp('5%')}
+                />
             </View>
-            <Button
-                Height={wp('10%')}
-                Width={wp('50%')}
-                BorderRadius={wp('3%')}
-                BackgroundColor={Colors.background}
-                Label={'Login'}
-                MarginTop={wp('4%')}
-                Color={Colors.primary}
-                FontWeight={'500'}
-                onPress={() => navigation.navigate("ChatScreen")}
-            />
-            <Text style={styles.textContainer} >Don't have an account?</Text>
             <Button
                 Height={wp('10%')}
                 Width={wp('50%')}
@@ -69,14 +86,26 @@ const LoginScreen = () => {
                 MarginTop={wp('4%')}
                 Color={Colors.primary}
                 FontWeight={'500'}
-                onPress={() => navigation.navigate("SignUpScreen")}
+                onPress={onPressSignUp}
+            />
+            <Text style={styles.textContainer} >Already have an account?</Text>
+            <Button
+                Height={wp('10%')}
+                Width={wp('50%')}
+                BorderRadius={wp('3%')}
+                BackgroundColor={Colors.background}
+                Label={'Login'}
+                MarginTop={wp('4%')}
+                Color={Colors.primary}
+                FontWeight={'500'}
+                onPress={() => navigation.navigate("LoginScreen")}
             />
         </View>
     )
 }
 
 
-export default LoginScreen
+export default SignUpScreen
 
 const styles = StyleSheet.create({
     mainContainer: {

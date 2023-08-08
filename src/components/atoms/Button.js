@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Colors from '../../styles/colors/Colors'
-const Button = ({ Label, Width, Height, BorderRadius, BackgroundColor, MarginTop, Color, FontWeight }) => {
+const Button = ({ Label, Width, Height, BorderRadius, BackgroundColor, MarginTop, Color, FontWeight, onPress }) => {
 
     const stylesRecievedFromProp = {
         width: Width,
@@ -10,7 +10,7 @@ const Button = ({ Label, Width, Height, BorderRadius, BackgroundColor, MarginTop
         backgroundColor: BackgroundColor,
         marginTop: MarginTop,
     }
-    
+
     const stylesRecievedFromPropForLabel = {
         color: Color,
         fontWeight: FontWeight
@@ -18,7 +18,7 @@ const Button = ({ Label, Width, Height, BorderRadius, BackgroundColor, MarginTop
 
     return (
 
-        <TouchableOpacity style={[styles.buttonMainContainer, stylesRecievedFromProp]} >
+        <TouchableOpacity onPress={() => { onPress() }} style={[styles.buttonMainContainer, stylesRecievedFromProp]} >
             <Text style={[styles.buttonTextContainer, stylesRecievedFromPropForLabel]} >{Label}</Text>
         </TouchableOpacity>
     )
