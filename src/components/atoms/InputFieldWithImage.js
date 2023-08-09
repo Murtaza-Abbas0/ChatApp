@@ -46,7 +46,7 @@ export default InputFieldWithImage
 
 const styles = StyleSheet.create({
     textInputContainer: {
-        color: Colors.text,
+        color: Colors.background,
         paddingStart: wp('4%')
     },
     imageButtonContainer: {

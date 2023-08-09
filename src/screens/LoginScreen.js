@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Button, InputField, InputFieldWithImage } from '../components/atoms';
+import { AlertMessage, Button, InputField, InputFieldWithImage } from '../components/atoms';
 import Colors from '../styles/colors/Colors';
 import { useNavigation } from '@react-navigation/native';
 import { getUsers, fetchUsers } from '../firebaseServices/getUsers';
@@ -15,15 +15,22 @@ const LoginScreen = () => {
     const [isPasswordHidden, setIsPasswordHidden] = useState(true)
 
     const onPressLogin = async () => {
+        await fetchUsers()
         const users = getUsers();
-        // console.log('Users:', users);
+        if (Username === '' || Password === '') {
+            console.log(Username, Password);
+            AlertMessage.showMessage("Username Or Password Is Empty!")
+            return
+        }
         for (let i = 0; i < users?.length; i++) {
-            // console.log(users[i])
             if (Username === users[i]?.userName && Password === users[i]?.password) {
-                console.log("user is valid");
                 navigation.navigate("ChatScreen")
                 setUsername('')
                 setPassword('')
+                setIsPasswordHidden(true)
+                return AlertMessage.showMessage("Logged In Sucessfully!")
+            } else {
+                return AlertMessage.showMessage("Invalid Credentials!")
             }
         }
     }
@@ -39,7 +46,7 @@ const LoginScreen = () => {
                     Width={wp('85%')}
                     Height={wp('13%')}
                     BorderRadius={wp('2%')}
-                    BackgroundColor={Colors.background}
+                    BackgroundColor={Colors.primary}
                 />
                 <InputFieldWithImage
                     Label={'Password'}
@@ -48,7 +55,7 @@ const LoginScreen = () => {
                     Width={wp('85%')}
                     Height={wp('13%')}
                     BorderRadius={wp('2%')}
-                    BackgroundColor={Colors.background}
+                    BackgroundColor={Colors.primary}
                     onPressEyeButton={() => { setIsPasswordHidden(!isPasswordHidden) }}
                     SecureTextEntry={isPasswordHidden}
                     WidthForIcon={wp('5%')}
@@ -59,10 +66,10 @@ const LoginScreen = () => {
                 Height={wp('10%')}
                 Width={wp('50%')}
                 BorderRadius={wp('3%')}
-                BackgroundColor={Colors.background}
+                BackgroundColor={Colors.primary}
                 Label={'Login'}
                 MarginTop={wp('4%')}
-                Color={Colors.primary}
+                Color={Colors.background}
                 FontWeight={'500'}
                 onPress={() => onPressLogin()}
             />
@@ -71,10 +78,10 @@ const LoginScreen = () => {
                 Height={wp('10%')}
                 Width={wp('50%')}
                 BorderRadius={wp('3%')}
-                BackgroundColor={Colors.background}
+                BackgroundColor={Colors.primary}
                 Label={'Sign up'}
                 MarginTop={wp('4%')}
-                Color={Colors.primary}
+                Color={Colors.background}
                 FontWeight={'500'}
                 onPress={() => navigation.navigate("SignUpScreen")}
             />
@@ -90,7 +97,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.secondary,
+        backgroundColor: Colors.background,
     },
     textFieldsContainer: {
         width: wp('100%'),
