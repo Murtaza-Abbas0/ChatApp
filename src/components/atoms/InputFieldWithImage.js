@@ -3,7 +3,8 @@ import { TextInput, View, StyleSheet, Image, TouchableOpacity } from 'react-nati
 import Colors from '../../styles/colors/Colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const ic_send = require('../../assets/icons/ic_send.png')
+const ic_visible = require('../../assets/icons/ic_visible.png')
+const ic_notVisible = require('../../assets/icons/ic_notVisible.png')
 const InputFieldWithImage = ({ Label, Value, SetValue, Width, Height, BorderRadius, BackgroundColor, SecureTextEntry, WidthForIcon, HeightForIcon, Right, Top, onPressEyeButton }) => {
 
     const stylesRecievedFromProp = {
@@ -11,7 +12,6 @@ const InputFieldWithImage = ({ Label, Value, SetValue, Width, Height, BorderRadi
         height: Height,
         borderRadius: BorderRadius,
         backgroundColor: BackgroundColor,
-        secureTextEntry: SecureTextEntry
     }
 
     const stylesRecievedFromPropForIcon = {
@@ -29,7 +29,7 @@ const InputFieldWithImage = ({ Label, Value, SetValue, Width, Height, BorderRadi
     return (
         <View>
             <TouchableOpacity onPress={() => onPressEyeButton()} style={styles.imageButtonContainer} >
-                <Image source={ic_send} style={[styles.imageContainer, stylesRecievedFromPropForIcon]} />
+                <Image source={SecureTextEntry ? ic_visible : ic_notVisible} style={[styles.imageContainer, stylesRecievedFromPropForIcon]} />
             </TouchableOpacity>
             <TextInput
                 style={[styles.textInputContainer, stylesRecievedFromProp]}

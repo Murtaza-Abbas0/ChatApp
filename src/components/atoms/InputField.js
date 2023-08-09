@@ -10,7 +10,6 @@ const InputField = ({ Label, Value, SetValue, Width, Height, BorderRadius, Backg
         height: Height,
         borderRadius: BorderRadius,
         backgroundColor: BackgroundColor,
-        secureTextEntry: SecureTextEntry
     }
 
     const onChangeText = (val) => {

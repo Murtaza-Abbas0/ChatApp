@@ -14,14 +14,21 @@ const LoginScreen = () => {
     const [Password, setPassword] = useState('')
     const [isPasswordHidden, setIsPasswordHidden] = useState(true)
 
-    const getUsersList = async () => {
-        await fetchUsers();
-
-        // Use cached user data in any component
+    const onPressLogin = async () => {
         const users = getUsers();
-        console.log('Users:', users);
+        // console.log('Users:', users);
+        for (let i = 0; i < users?.length; i++) {
+            // console.log(users[i])
+            if (Username === users[i]?.userName && Password === users[i]?.password) {
+                console.log("user is valid");
+                navigation.navigate("ChatScreen")
+                setUsername('')
+                setPassword('')
+            }
+        }
     }
-    getUsersList()
+
+
     return (
         <View style={styles.mainContainer} >
             <View style={styles.textFieldsContainer} >
@@ -57,7 +64,7 @@ const LoginScreen = () => {
                 MarginTop={wp('4%')}
                 Color={Colors.primary}
                 FontWeight={'500'}
-                onPress={() => navigation.navigate("ChatScreen")}
+                onPress={() => onPressLogin()}
             />
             <Text style={styles.textContainer} >Don't have an account?</Text>
             <Button
