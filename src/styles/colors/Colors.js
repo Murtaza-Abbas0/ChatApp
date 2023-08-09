@@ -5,6 +5,7 @@ const Colors = {
     text: 'white',
     accent: '#66b3ff',
     error: 'red',
+    headerBackground: '#333333'
   };
   
   export default Colors;

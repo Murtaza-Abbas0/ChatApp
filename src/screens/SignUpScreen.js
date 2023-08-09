@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Button, InputField, InputFieldWithImage } from '../components/atoms';
+import { AlertMessage, Button, InputField, InputFieldWithImage } from '../components/atoms';
 import Colors from '../styles/colors/Colors';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
@@ -22,15 +22,17 @@ const SignUpScreen = () => {
             firestore()
                 .runTransaction(async (transaction) => {
                     await transaction.set(userRef, {
-                        userName: Username,
+                        userName: Username.toLowerCase(),
                         password: Password,
                     });
                 })
                 .then(() => {
                     console.log('User added!');
+                    AlertMessage.showMessage("Signed Up Sucessfully!")
                 })
                 .catch((error) => {
                     console.log('Transaction failed: ', error);
+                    AlertMessage.showMessage(error)
                 });
         } else {
             console.log('Passwords do not match');
